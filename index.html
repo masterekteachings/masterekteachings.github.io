@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A growing learning library from the recorded teachings of Master E.K." />
+  <meta name="color-scheme" content="light dark" />
+  <title>Master E.K. Teachings</title>
+  <style>
+    :root {
+      font-family: Georgia, "Times New Roman", serif;
+      color-scheme: light dark;
+      --bg: #f4efe6;
+      --fg: #211d18;
+      --muted: #655d52;
+      --card: rgba(255,255,255,.42);
+      --rule: rgba(33,29,24,.35);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg); }
+    main { width: min(920px, calc(100% - 32px)); margin: 0 auto; padding: 72px 0 56px; }
+    header { max-width: 760px; margin-bottom: 48px; }
+    .kicker { margin: 0 0 10px; font: 600 .8rem/1.4 system-ui, sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+    h1 { margin: 0 0 18px; font-size: clamp(2.4rem, 8vw, 5rem); line-height: .98; font-weight: 500; }
+    .intro { margin: 0; max-width: 680px; font-size: 1.16rem; line-height: 1.72; }
+    .collections-title { margin: 0 0 16px; font: 600 .85rem/1.4 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+    .collection { display: block; max-width: 760px; padding: 30px; border: 1px solid var(--rule); border-radius: 14px; color: inherit; text-decoration: none; background: var(--card); }
+    .collection:hover { transform: translateY(-1px); }
+    .collection:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+    .collection h2 { margin: 0 0 8px; font-size: 1.8rem; font-weight: 500; }
+    .collection p { margin: 7px 0 0; line-height: 1.6; }
+    .languages, .status { font-family: system-ui, sans-serif; }
+    .languages { font-size: .96rem; }
+    .status { color: var(--muted); font-size: .9rem; }
+    footer { max-width: 760px; margin-top: 54px; padding-top: 18px; border-top: 1px solid var(--rule); color: var(--muted); font: .9rem/1.6 system-ui, sans-serif; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#181613; --fg:#efe7da; --muted:#bbb0a1; --card:rgba(255,255,255,.04); --rule:rgba(239,231,218,.28); }
+    }
+    @media (prefers-reduced-motion: no-preference) { .collection { transition: transform .15s ease; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="kicker">Master E.K.</p>
+      <h1>Teachings</h1>
+      <p class="intro">A growing learning library from recorded classes and teachings, organised so each subject can be explored as a coherent collection.</p>
+    </header>
+
+    <section aria-labelledby="collections-heading">
+      <p id="collections-heading" class="collections-title">Collections</p>
+      <a class="collection" href="./homeopathy/">
+        <h2>Homeopathy Classes</h2>
+        <p>Junior Philosophy and Senior Philosophy study notes, with the original source recording linked from each lecture.</p>
+        <p class="languages">తెలుగు &nbsp;·&nbsp; English &nbsp;·&nbsp; Русский</p>
+        <p id="homeopathy-status" class="status">Open the learning reader</p>
+      </a>
+    </section>
+
+    <footer>
+      Additional teaching collections can be added independently as the library grows.
+    </footer>
+  </main>
+  <script>
+    fetch('./homeopathy/status.json', { cache: 'no-store' })
+      .then((response) => response.ok ? response.json() : Promise.reject())
+      .then((status) => {
+        const el = document.getElementById('homeopathy-status');
+        if (!el) return;
+        if (Number.isInteger(status.trilingual_philosophy_complete)) {
+          el.textContent = `${status.trilingual_philosophy_complete} of 38 Philosophy classes currently available in all three languages.`;
+        }
+      })
+      .catch(() => {});
+  </script>
+</body>
+</html>
