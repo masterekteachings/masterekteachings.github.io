@@ -53,7 +53,7 @@
         <h2>Homeopathy Classes</h2>
         <p>Junior Philosophy and Senior Philosophy study notes, with the original source recording linked from each lecture.</p>
         <p class="languages">తెలుగు &nbsp;·&nbsp; English &nbsp;·&nbsp; Русский</p>
-        <p id="homeopathy-status" class="status">Open the learning reader</p>
+        <p id="homeopathy-status" class="status">Checking publication status…</p>
       </a>
     </section>
 
@@ -67,11 +67,17 @@
       .then((status) => {
         const el = document.getElementById('homeopathy-status');
         if (!el) return;
-        if (Number.isInteger(status.trilingual_philosophy_complete)) {
-          el.textContent = `${status.trilingual_philosophy_complete} of 38 Philosophy classes currently available in all three languages.`;
+        if (Number.isInteger(status.qc_passed_trilingual_philosophy)) {
+          const n = status.qc_passed_trilingual_philosophy;
+          el.textContent = n === 0
+            ? 'Philosophy notes are in editorial review; no class has crossed the final publication gate yet.'
+            : `${n} of 38 Philosophy classes have passed the final trilingual publication gate.`;
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        const el = document.getElementById('homeopathy-status');
+        if (el) el.textContent = 'Publication status is being prepared.';
+      });
   </script>
 </body>
 </html>
